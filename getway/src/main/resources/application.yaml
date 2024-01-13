@@ -19,8 +19,12 @@ spring:
         # 解决options请求被拦截的问题
         add-to-simple-url-handler-mapping: true
       routes:
-        - id: staff
+        - id: employee
           uri: http://127.0.0.1:8080
 #          uri: lb://member # 负载均衡的
           predicates:
             - Path=/api/employee/**
+        - id: employee-information
+          uri: http://127.0.0.1:8080
+          predicates:
+            - Path=/api/employeeInformation/**
