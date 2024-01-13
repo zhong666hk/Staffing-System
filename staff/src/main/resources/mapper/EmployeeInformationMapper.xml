@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wbu.staff.employee_information.mapper.EmployeeInformationMapper">
+
+    <resultMap id="BaseResultMap" type="com.wbu.staff.employee_information.domain.EmployeeInformation">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="CHAR"/>
+            <result property="birthday" column="birthday" jdbcType="DATE"/>
+            <result property="idCard" column="id_card" jdbcType="CHAR"/>
+            <result property="nationId" column="nation_id" jdbcType="INTEGER"/>
+            <result property="nativePlace" column="native_place" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="departmentId" column="department_id" jdbcType="INTEGER"/>
+            <result property="jobLevelId" column="job_level_id" jdbcType="INTEGER"/>
+            <result property="posId" column="pos_id" jdbcType="INTEGER"/>
+            <result property="tiptopDegree" column="tiptop_degree" jdbcType="OTHER"/>
+            <result property="specialty" column="specialty" jdbcType="VARCHAR"/>
+            <result property="school" column="school" jdbcType="VARCHAR"/>
+            <result property="beginDate" column="begin_date" jdbcType="DATE"/>
+            <result property="workState" column="work_state" jdbcType="OTHER"/>
+            <result property="workId" column="work_id" jdbcType="CHAR"/>
+            <result property="contractTerm" column="contract_term" jdbcType="DOUBLE"/>
+            <result property="conversionTime" column="conversion_time" jdbcType="DATE"/>
+            <result property="notWorkDate" column="not_work_date" jdbcType="DATE"/>
+            <result property="beginContract" column="begin_contract" jdbcType="DATE"/>
+            <result property="endContract" column="end_contract" jdbcType="DATE"/>
+            <result property="workAge" column="work_age" jdbcType="INTEGER"/>
+            <result property="employeeId" column="employee_id" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,gender,
+        birthday,id_card,nation_id,
+        native_place,email,phone,
+        address,department_id,job_level_id,
+        pos_id,tiptop_degree,specialty,
+        school,begin_date,work_state,
+        work_id,contract_term,conversion_time,
+        not_work_date,begin_contract,end_contract,
+        work_age,employee_id,create_time,
+        update_time
+    </sql>
+</mapper>

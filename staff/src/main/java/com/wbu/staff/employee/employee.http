@@ -1,0 +1,25 @@
+### 测试注册
+POST http://localhost:8080/api/employee/register
+Content-Type: application/json;charset=utf-8
+
+{
+  "mobile": "16607211504",
+  "password": "zzb200166"
+}
+
+### 登录测试
+POST http://localhost:8080/api/employee/login
+Content-Type: application/json;charset=utf-8
+
+{
+  "mobile": "16607211504",
+  "password": "zzb200166"
+}
+
+> {%
+    client.global.set("token",response.body.data.token)
+%}
+
+### 查询注册
+GET http://localhost:8080/api/employee/query_list?page=1&size=10
+Accept: application/json

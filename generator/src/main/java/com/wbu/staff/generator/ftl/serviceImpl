@@ -1,0 +1,75 @@
+package com.wbu.staff.generator.ftl;
+
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wbu.staff.common.context.LoginMemberContext;
+import com.wbu.staff.common.util.SnowUtil;
+import com.wbu.staff.${model}.domain.${domainObjectName};
+import com.wbu.staff.${model}.mapper.${domainObjectName}Mapper;
+import com.wbu.staff.${model}.req.${domainObjectName}QueryReq;
+import com.wbu.staff.${model}.req.${domainObjectName}SaveReq;
+import com.wbu.staff.${model}.resp.${domainObjectName}QueryResp;
+import com.wbu.staff.${model}.service.${domainObjectName}Service;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+/**
+ * @author 钟正保
+ * @description 针对表【${doMain}(乘车人)】的数据库操作Service实现
+ * @createDate 2023-11-14 14:43:47
+ */
+@Service
+public class ${domainObjectName}ServiceImpl extends ServiceImpl<${domainObjectName}Mapper, ${domainObjectName}>
+        implements ${domainObjectName}Service {
+
+    @Override
+    public boolean save${domainObjectName}(${domainObjectName}SaveReq req) {
+        DateTime date = DateUtil.dateSecond(); // hutool的是已经格式化了的
+        if (ObjectUtil.isNull(req)) {
+            return false;
+        }
+        // 拷贝类
+        ${domainObjectName} ${doMain} = BeanUtil.copyProperties(req, ${domainObjectName}.class);
+        // 如果是id为空--->说明是添加的操作
+        if (ObjectUtil.isNull(${doMain}.getId())){
+            ${doMain}.setId(SnowUtil.getSnowflakeNextId());
+            ${doMain}.setCreateTime(date);
+            ${doMain}.setUpdateTime(date);
+            return this.save(${doMain});
+        }// id不为空说明是修改的操作
+        else {
+            ${doMain}.setUpdateTime(date);
+            return this.updateById(${doMain});
+        }
+    }
+
+    @Override
+    public Page<${domainObjectName}QueryResp> query${domainObjectName}s(${domainObjectName}QueryReq req) {
+        // ObjectUtil.isNotNull(req)为空是管理员来查询所有的票
+        QueryWrapper<${domainObjectName}> ${doMain}QueryWrapper = new QueryWrapper<>();
+        //原理会对第一个sql进行拦截 添加limit
+//        PageHelper.startPage( req.getPage(),req.getSize());
+        Page<${domainObjectName}> page = this.page(new Page<>(req.getPage(), req.getSize()), ${doMain}QueryWrapper);
+        Page<${domainObjectName}QueryResp> ${doMain}QueryRespPage = new Page<>();
+        BeanUtil.copyProperties(page,${doMain}QueryRespPage);
+        return ${doMain}QueryRespPage;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        if (ObjectUtil.isNull(id)){
+            return false;
+        }
+        return this.removeById(id);
+    }
+}
+
+
+
+
