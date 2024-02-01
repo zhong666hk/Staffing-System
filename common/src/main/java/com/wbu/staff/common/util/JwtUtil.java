@@ -15,7 +15,7 @@ import java.util.Map;
 public class JwtUtil {
     private static final Logger LOG = LoggerFactory.getLogger(JwtUtil.class);
     private static final String key="zzb12306";
-    public static String createToken(Long id, String mobile){
+    public static String createToken(Long id, String mobile,String password){
         DateTime now = DateTime.now();
         DateTime expTime = now.offsetNew(DateField.HOUR, 24);
         Map<String, Object> payload = new HashMap<>();
@@ -28,6 +28,7 @@ public class JwtUtil {
         // 内容
         payload.put("id", id);
         payload.put("mobile", mobile);
+        payload.put("password",password);
         String token = JWTUtil.createToken(payload, key.getBytes());
         LOG.info("生成JWT token：{}", token);
         return token;
@@ -54,12 +55,9 @@ public class JwtUtil {
         return payloads;
     }
     public static void main(String[] args) {
-        createToken(1L, "123");
-
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2OTk4NTE2NDcsIm1vYmlsZSI6IjEyMyIsImlkIjoxLCJleHAiOjE2OTk5MzgwNDcsImlhdCI6MTY5OTg1MTY0N30.sziGVr510eo3btKFmPJ8yLOFpTLdzdiR7loAvGzk53c";
+        String token= createToken(1L, "123", "zzb200166");
         validate(token);
-        validate("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2OTk4NTQ0MzYsIm1vYmlsZSI6IjE2NjA3MjExNTAzIiwiaWQiOjIzLCJleHAiOjE2OTk5NDA4MzYsImlhdCI6MTY5OTg1NDQzNn0.dacVeY6mYPbA47cDMhBQpv0N_DKUxtZPzV7NOONebI8");
-        getJSONObject("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2OTk4NTU0MDQsIm1vYmlsZSI6IjE2NjA3MjExNTAzIiwiaWQiOjE3MjI4Njc1MDgzNzkyNDI0OTcsImV4cCI6MTY5OTk0MTgwNCwiaWF0IjoxNjk5ODU1NDA0fQ.9CG1FxUEP8dDRNf_j6MpvbS_47ndrIl-eV2FtjI5mzU");
+        validate(token);
         getJSONObject(token);
     }
 }

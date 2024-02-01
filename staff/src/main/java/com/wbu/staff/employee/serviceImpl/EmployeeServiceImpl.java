@@ -8,7 +8,6 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wbu.staff.common.exception.AppExceptionExample;
 import com.wbu.staff.common.exception.MyException;
 import com.wbu.staff.common.respon.CommonRespond;
 import com.wbu.staff.common.respon.RespondExample;
@@ -22,7 +21,7 @@ import com.wbu.staff.employee.req.EmployeeQueryReq;
 import com.wbu.staff.employee.req.EmployeeRegisterReq;
 import com.wbu.staff.employee.req.EmployeeSaveReq;
 import com.wbu.staff.employee.resp.EmployeeQueryResp;
-import com.wbu.staff.employee.resp.LoginResp;
+import com.wbu.staff.common.respon.LoginResp;
 import com.wbu.staff.employee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -115,7 +114,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         if (ObjectUtil.isNull(employee)){
             return CommonRespond.error(3000,"账号或者密码错误");
         }
-        String token = JwtUtil.createToken(employee.getId(), encryptPassword);
+        String token = JwtUtil.createToken(employee.getId(), mobile,encryptPassword);
         return CommonRespond.succeed("登陆成功",new LoginResp(true,token));
     }
 }

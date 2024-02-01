@@ -9,7 +9,7 @@ import com.wbu.staff.employee.req.EmployeeQueryReq;
 import com.wbu.staff.employee.req.EmployeeRegisterReq;
 import com.wbu.staff.employee.req.EmployeeSaveReq;
 import com.wbu.staff.employee.resp.EmployeeQueryResp;
-import com.wbu.staff.employee.resp.LoginResp;
+import com.wbu.staff.common.respon.LoginResp;
 
 /**
 * @author 钟正保
