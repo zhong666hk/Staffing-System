@@ -28,3 +28,15 @@ spring:
           uri: http://127.0.0.1:8080
           predicates:
             - Path=/api/employeeInformation/**
+        - id: department
+          uri: http://127.0.0.1:8080
+          predicates:
+            - Path=/api/department/**
+        - id: nation
+          uri: http://127.0.0.1:8080
+          predicates:
+            - Path=/api/nation/**
+        - id: position
+          uri: http://127.0.0.1:8080
+          predicates:
+            - Path=/api/position/**

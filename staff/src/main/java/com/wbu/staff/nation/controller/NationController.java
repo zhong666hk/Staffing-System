@@ -1,4 +1,4 @@
-package com.wbu.staff.${model}.controller;
+package com.wbu.staff.nation.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -7,11 +7,11 @@ import com.wbu.staff.common.Aspect.annotation.LogAnnotation;
 import com.wbu.staff.common.exception.AppExceptionExample;
 import com.wbu.staff.common.respon.CommonRespond;
 import com.wbu.staff.common.respon.RespondExample;
-import com.wbu.staff.${model}.domain.${domainObjectName};
-import com.wbu.staff.${model}.req.${domainObjectName}QueryReq;
-import com.wbu.staff.${model}.req.${domainObjectName}SaveReq;
-import com.wbu.staff.${model}.resp.${domainObjectName}QueryResp;
-import com.wbu.staff.${model}.service.${domainObjectName}Service;
+import com.wbu.staff.nation.domain.Nation;
+import com.wbu.staff.nation.req.NationQueryReq;
+import com.wbu.staff.nation.req.NationSaveReq;
+import com.wbu.staff.nation.resp.NationQueryResp;
+import com.wbu.staff.nation.service.NationService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,22 +21,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/${doMain}")
-public class ${domainObjectName}Controller {
-    public static final Logger LOG = LoggerFactory.getLogger(${domainObjectName}Controller.class);
+@RequestMapping("/nation")
+public class NationController {
+    public static final Logger LOG = LoggerFactory.getLogger(NationController.class);
 
     @Autowired
-    private ${domainObjectName}Service ${doMain}Service;
+    private NationService nationService;
 
 
     @LogAnnotation
     @PostMapping("/save")
-    public CommonRespond<Boolean> register(@Valid @RequestBody ${domainObjectName}SaveReq ${doMain}SaveReq) {
-        if (ObjectUtil.isEmpty(${doMain}SaveReq)) {
+    public CommonRespond<Boolean> register(@Valid @RequestBody NationSaveReq nationSaveReq) {
+        if (ObjectUtil.isEmpty(nationSaveReq)) {
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
         }
         try{
-            if (${doMain}Service.save${domainObjectName}(${doMain}SaveReq)) {
+            if (nationService.saveNation(nationSaveReq)) {
                 return CommonRespond.succeed("添加或修改成功！！！",true);
             }
         }catch (Exception e){
@@ -49,16 +49,16 @@ public class ${domainObjectName}Controller {
 
     @LogAnnotation
     @GetMapping("/query_list")
-    public CommonRespond<Page<${domainObjectName}QueryResp>> query_list(@Valid ${domainObjectName}QueryReq ${doMain}QueryReq) {
+    public CommonRespond<Page<NationQueryResp>> query_list(@Valid NationQueryReq nationQueryReq) {
 
-        Page<${domainObjectName}QueryResp> page = ${doMain}Service.query${domainObjectName}s(${doMain}QueryReq);
+        Page<NationQueryResp> page = nationService.queryNations(nationQueryReq);
         return CommonRespond.succeed(page);
     }
 
     @LogAnnotation
     @DeleteMapping("/delete/{id}")
     public CommonRespond<Boolean> delete(@PathVariable Long id) {
-        if (${doMain}Service.deleteById(id)){
+        if (nationService.deleteById(id)){
             return CommonRespond.succeed("删除成功",true);
         }
         return CommonRespond.error(30000,"删除失败");
