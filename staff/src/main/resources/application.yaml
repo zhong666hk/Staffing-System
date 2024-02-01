@@ -17,3 +17,6 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+password:
+  key: zzb2001661111111

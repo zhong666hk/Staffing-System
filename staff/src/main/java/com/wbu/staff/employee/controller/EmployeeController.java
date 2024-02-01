@@ -65,7 +65,7 @@ public class EmployeeController {
 
     @LogAnnotation
     @PostMapping("/register")
-    public CommonRespond<Long> register(@RequestBody @Valid EmployeeRegisterReq employeeRegisterReq) {
+    public CommonRespond<Long> register(@RequestBody @Valid EmployeeRegisterReq employeeRegisterReq) throws Exception {
         if (ObjectUtil.isEmpty(employeeRegisterReq)) {
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
         }
@@ -73,7 +73,7 @@ public class EmployeeController {
     }
     @LogAnnotation
     @PostMapping("/login")
-    public CommonRespond<LoginResp> Login(@Valid @RequestBody EmployeeLoginReq employeeLoginReq) {
+    public CommonRespond<LoginResp> Login(@Valid @RequestBody EmployeeLoginReq employeeLoginReq) throws Exception {
         if (ObjectUtil.isNull(employeeLoginReq)){
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
         }

@@ -13,6 +13,7 @@ import com.wbu.staff.common.exception.MyException;
 import com.wbu.staff.common.respon.CommonRespond;
 import com.wbu.staff.common.respon.RespondExample;
 import com.wbu.staff.common.util.JwtUtil;
+import com.wbu.staff.common.util.PasswordUtil;
 import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.employee.domain.Employee;
 import com.wbu.staff.employee.mapper.EmployeeMapper;
@@ -23,6 +24,7 @@ import com.wbu.staff.employee.req.EmployeeSaveReq;
 import com.wbu.staff.employee.resp.EmployeeQueryResp;
 import com.wbu.staff.employee.resp.LoginResp;
 import com.wbu.staff.employee.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,9 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         implements EmployeeService {
+
+    @Value("${password.key}")
+    private String key;
 
     @Override
     public boolean saveEmployee(EmployeeSaveReq req) {
@@ -71,7 +76,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     }
 
     @Override
-    public CommonRespond<Long> register(EmployeeRegisterReq employeeRegisterReq) {
+    public CommonRespond<Long> register(EmployeeRegisterReq employeeRegisterReq) throws Exception {
         //为空返回
         if (ObjectUtil.isEmpty(employeeRegisterReq)) {
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
@@ -87,8 +92,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         }
         Employee newEmployee = new Employee();
         newEmployee.setMobile(mobile);
-
-        newEmployee.setPassword(password);
+        //密码加密存储
+        String encryptAES = PasswordUtil.encryptAES(key, password);
+        newEmployee.setPassword(encryptAES);
         newEmployee.setId(SnowUtil.getSnowflakeNextId());
         boolean saveResult = this.save(newEmployee);
         if (saveResult) {
@@ -98,15 +104,18 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     }
 
     @Override
-    public CommonRespond<LoginResp> login(EmployeeLoginReq employeeLoginReq) {
+    public CommonRespond<LoginResp> login(EmployeeLoginReq employeeLoginReq) throws Exception {
         String mobile = employeeLoginReq.getMobile();
         String password=employeeLoginReq.getPassword();
+        //密码加密
+        String encryptPassword = PasswordUtil.encryptAES(key, password);
+
         //生成token
-        Employee employee = this.query().select("id").eq("mobile", mobile).eq("password",password).one();
+        Employee employee = this.query().select("id").eq("mobile", mobile).eq("password",encryptPassword).one();
         if (ObjectUtil.isNull(employee)){
             return CommonRespond.error(3000,"账号或者密码错误");
         }
-        String token = JwtUtil.createToken(employee.getId(), mobile);
+        String token = JwtUtil.createToken(employee.getId(), encryptPassword);
         return CommonRespond.succeed("登陆成功",new LoginResp(true,token));
     }
 }

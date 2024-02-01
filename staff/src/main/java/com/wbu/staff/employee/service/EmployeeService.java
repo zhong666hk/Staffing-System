@@ -37,7 +37,7 @@ public interface EmployeeService extends IService<Employee> {
      * @param employeeRegisterReq
      * @return
      */
-    CommonRespond<Long> register(EmployeeRegisterReq employeeRegisterReq);
+    CommonRespond<Long> register(EmployeeRegisterReq employeeRegisterReq) throws Exception;
 
-    CommonRespond<LoginResp> login(EmployeeLoginReq employeeLoginReq);
+    CommonRespond<LoginResp> login(EmployeeLoginReq employeeLoginReq) throws Exception;
 }
