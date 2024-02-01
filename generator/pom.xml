@@ -65,7 +65,7 @@
 <!--                持久层的配置-读取xml-->
                 <configuration>
                     <!--<configurationFile>src/main/resources/generator-config-member.xml</configurationFile>-->
-                    <configurationFile>src/main/resources/generator-config-position.xml</configurationFile>
+                    <configurationFile>src/main/resources/generator-config-job_level.xml</configurationFile>
 <!--                    <configurationFile>src/main/resources/generator-config-employee.xml</configurationFile>-->
 <!--                    <configurationFile>src/main/resources/generator-config-ticket.xml</configurationFile>-->
 

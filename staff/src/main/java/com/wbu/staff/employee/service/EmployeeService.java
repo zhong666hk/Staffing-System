@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wbu.staff.common.respon.CommonRespond;
 import com.wbu.staff.employee.domain.Employee;
-import com.wbu.staff.employee.req.EmployeeLoginReq;
-import com.wbu.staff.employee.req.EmployeeQueryReq;
-import com.wbu.staff.employee.req.EmployeeRegisterReq;
-import com.wbu.staff.employee.req.EmployeeSaveReq;
+import com.wbu.staff.employee.req.*;
 import com.wbu.staff.employee.resp.EmployeeQueryResp;
 import com.wbu.staff.common.respon.LoginResp;
 
@@ -40,4 +37,6 @@ public interface EmployeeService extends IService<Employee> {
     CommonRespond<Long> register(EmployeeRegisterReq employeeRegisterReq) throws Exception;
 
     CommonRespond<LoginResp> login(EmployeeLoginReq employeeLoginReq) throws Exception;
+
+    CommonRespond<Object> resetPassword(ResetEmployeePassword resetEmployeePassword) throws Exception;
 }

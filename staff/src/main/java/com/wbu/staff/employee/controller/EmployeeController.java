@@ -4,13 +4,10 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wbu.staff.common.Aspect.annotation.LogAnnotation;
 import com.wbu.staff.common.respon.CommonRespond;
-import com.wbu.staff.common.respon.RespondExample;
-import com.wbu.staff.employee.req.EmployeeLoginReq;
-import com.wbu.staff.employee.req.EmployeeQueryReq;
-import com.wbu.staff.employee.req.EmployeeRegisterReq;
-import com.wbu.staff.employee.req.EmployeeSaveReq;
-import com.wbu.staff.employee.resp.EmployeeQueryResp;
 import com.wbu.staff.common.respon.LoginResp;
+import com.wbu.staff.common.respon.RespondExample;
+import com.wbu.staff.employee.req.*;
+import com.wbu.staff.employee.resp.EmployeeQueryResp;
 import com.wbu.staff.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -33,15 +30,15 @@ public class EmployeeController {
         if (ObjectUtil.isEmpty(employeeSaveReq)) {
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
         }
-        try{
+        try {
             if (employeeService.saveEmployee(employeeSaveReq)) {
-                return CommonRespond.succeed("员工添加或修改成功！！！",true);
+                return CommonRespond.succeed("员工添加或修改成功！！！", true);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             LOG.error(e.getMessage());
-            return CommonRespond.error(3000,"操作异常");
+            return CommonRespond.error(3000, "操作异常");
         }
-        return CommonRespond.error(3000,"操作异常");
+        return CommonRespond.error(3000, "操作异常");
     }
 
 
@@ -56,10 +53,10 @@ public class EmployeeController {
     @LogAnnotation
     @DeleteMapping("/delete/{id}")
     public CommonRespond<Boolean> delete(@PathVariable Long id) {
-        if (employeeService.deleteById(id)){
-            return CommonRespond.succeed("删除成功",true);
+        if (employeeService.deleteById(id)) {
+            return CommonRespond.succeed("删除成功", true);
         }
-        return CommonRespond.error(3000,"操作异常");
+        return CommonRespond.error(3000, "操作异常");
     }
 
     @LogAnnotation
@@ -70,13 +67,24 @@ public class EmployeeController {
         }
         return employeeService.register(employeeRegisterReq);
     }
+
     @LogAnnotation
     @PostMapping("/login")
     public CommonRespond<LoginResp> Login(@Valid @RequestBody EmployeeLoginReq employeeLoginReq) throws Exception {
-        if (ObjectUtil.isNull(employeeLoginReq)){
+        if (ObjectUtil.isNull(employeeLoginReq)) {
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
         }
         return employeeService.login(employeeLoginReq);
 
+    }
+
+
+    @LogAnnotation
+    @PostMapping("/resetPassword")
+    public CommonRespond<Object> resetPassword(@Valid @RequestBody ResetEmployeePassword resetEmployeePassword) throws Exception {
+        if (ObjectUtil.isNull(resetEmployeePassword)) {
+            return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
+        }
+        return employeeService.resetPassword(resetEmployeePassword);
     }
 }

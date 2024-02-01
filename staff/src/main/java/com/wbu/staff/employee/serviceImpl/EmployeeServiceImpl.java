@@ -16,10 +16,7 @@ import com.wbu.staff.common.util.PasswordUtil;
 import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.employee.domain.Employee;
 import com.wbu.staff.employee.mapper.EmployeeMapper;
-import com.wbu.staff.employee.req.EmployeeLoginReq;
-import com.wbu.staff.employee.req.EmployeeQueryReq;
-import com.wbu.staff.employee.req.EmployeeRegisterReq;
-import com.wbu.staff.employee.req.EmployeeSaveReq;
+import com.wbu.staff.employee.req.*;
 import com.wbu.staff.employee.resp.EmployeeQueryResp;
 import com.wbu.staff.common.respon.LoginResp;
 import com.wbu.staff.employee.service.EmployeeService;
@@ -116,6 +113,32 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         }
         String token = JwtUtil.createToken(employee.getId(), mobile,encryptPassword);
         return CommonRespond.succeed("登陆成功",new LoginResp(true,token));
+    }
+
+    @Override
+    public CommonRespond<Object> resetPassword(ResetEmployeePassword resetEmployeePassword) throws Exception {
+        //获取信息
+        String newPassword = resetEmployeePassword.getNewPassword();
+        String oldPassword = resetEmployeePassword.getOldPassword();
+        String newPasswordAgain = resetEmployeePassword.getNewPasswordAgain();
+        //1.校验两次新密码是否正确
+        if (!newPasswordAgain.equals(newPassword)){
+            throw new MyException(30000,"两次输入新密码不一致");
+        }
+
+        //2.校验旧密码
+        Employee employee = this.getById(resetEmployeePassword.getId());
+        String decryptAES = PasswordUtil.decryptAES(key, employee.getPassword());
+        if (!decryptAES.equals(oldPassword)){
+            throw new MyException(30000,"原密码输入错误");
+        }
+        //3.修改密码
+        String encryptAES = PasswordUtil.encryptAES(key, newPassword);
+        employee.setPassword(encryptAES);
+        if (this.updateById(employee)) {
+            return CommonRespond.succeed("密码修改成功",null);
+        }
+        return CommonRespond.error(30000,"密码修改失败");
     }
 }
 
