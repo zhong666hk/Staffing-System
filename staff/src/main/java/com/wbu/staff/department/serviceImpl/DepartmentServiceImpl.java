@@ -17,6 +17,7 @@ import com.wbu.staff.department.service.DepartmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 钟正保
@@ -35,6 +36,18 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         }
         // 拷贝类
         Department department = BeanUtil.copyProperties(req, Department.class);
+        if(!ObjectUtil.isNull(req.getName())){
+            //获取父id
+            QueryWrapper<Department> departmentQueryWrapper = new QueryWrapper<>();
+            departmentQueryWrapper.eq("name",req.getName());
+            Department parentDepartment = this.getOne(departmentQueryWrapper);
+            //设置department的父id
+            if (ObjectUtil.isNull(parentDepartment)){
+                department.setParentid(null);
+            }else {
+                department.setParentid(parentDepartment.getId());
+            }
+        }
         // 如果是id为空--->说明是添加的操作
         if (ObjectUtil.isNull(department.getId())){
             department.setId(SnowUtil.getSnowflakeNextId());
@@ -66,6 +79,14 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             return false;
         }
         return this.removeById(id);
+    }
+
+    @Override
+    public List<DepartmentQueryResp> queryAll() {
+        QueryWrapper<Department> departmentQueryWrapper = new QueryWrapper<>();
+        departmentQueryWrapper.orderByAsc("name");
+        List<Department> list = this.list(departmentQueryWrapper);
+        return BeanUtil.copyToList(list, DepartmentQueryResp.class);
     }
 }
 

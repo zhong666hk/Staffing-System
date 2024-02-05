@@ -30,4 +30,6 @@ public interface JobLevelService extends IService<JobLevel> {
      * @param id
      */
     public boolean  deleteById(Long id);
+
+    List<JobLevelQueryResp> queryAll();
 }

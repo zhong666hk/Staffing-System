@@ -35,6 +35,7 @@ public class EmployeeInformationServiceImpl extends ServiceImpl<EmployeeInformat
         EmployeeInformation employeeInformation = BeanUtil.copyProperties(req, EmployeeInformation.class);
         // 如果是id为空--->说明是添加的操作
         if (ObjectUtil.isNull(employeeInformation.getId())) {
+            //todo 保存信息都是name需要查找。 后面的信息都需要-->管理员可以修改其他人的 员工只能修改自己的 信息应该从录取简历中获取
             employeeInformation.setId(SnowUtil.getSnowflakeNextId());
             employeeInformation.setCreateTime(date);
             employeeInformation.setUpdateTime(date);

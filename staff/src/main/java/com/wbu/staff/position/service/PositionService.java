@@ -30,4 +30,6 @@ public interface PositionService extends IService<Position> {
      * @param id
      */
     public boolean  deleteById(Long id);
+
+    List<PositionQueryResp> queryAll();
 }

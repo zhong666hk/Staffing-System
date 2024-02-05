@@ -30,4 +30,6 @@ public interface DepartmentService extends IService<Department> {
      * @param id
      */
     public boolean  deleteById(Long id);
+
+    List<DepartmentQueryResp> queryAll();
 }

@@ -30,4 +30,6 @@ public interface NationService extends IService<Nation> {
      * @param id
      */
     public boolean  deleteById(Long id);
+
+    List<NationQueryResp> queryAll();
 }

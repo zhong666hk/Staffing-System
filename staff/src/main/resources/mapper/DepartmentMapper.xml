@@ -12,11 +12,12 @@
             <result property="parentid" column="parentId" jdbcType="BIGINT"/>
             <result property="isparent" column="isParent" jdbcType="TINYINT"/>
             <result property="count" column="count" jdbcType="INTEGER"/>
+            <result property="parentDepartment" column="parent_department" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,update_time,create_time,
-        name,parentId,isParent,
+        name,parentId,isParent,parent_department,
         count
     </sql>
 </mapper>

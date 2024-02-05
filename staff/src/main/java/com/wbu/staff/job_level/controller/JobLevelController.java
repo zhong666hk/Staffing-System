@@ -1,13 +1,10 @@
 package com.wbu.staff.job_level.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wbu.staff.common.Aspect.annotation.LogAnnotation;
-import com.wbu.staff.common.exception.AppExceptionExample;
 import com.wbu.staff.common.respon.CommonRespond;
 import com.wbu.staff.common.respon.RespondExample;
-import com.wbu.staff.job_level.domain.JobLevel;
 import com.wbu.staff.job_level.req.JobLevelQueryReq;
 import com.wbu.staff.job_level.req.JobLevelSaveReq;
 import com.wbu.staff.job_level.resp.JobLevelQueryResp;
@@ -35,15 +32,15 @@ public class JobLevelController {
         if (ObjectUtil.isEmpty(jobLevelSaveReq)) {
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
         }
-        try{
+        try {
             if (jobLevelService.saveJobLevel(jobLevelSaveReq)) {
-                return CommonRespond.succeed("添加或修改成功！！！",true);
+                return CommonRespond.succeed("添加或修改成功！！！", true);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             LOG.error(e.getMessage());
-            return CommonRespond.error(30000,"添加或修改失败");
+            return CommonRespond.error(30000, "添加或修改失败");
         }
-        return CommonRespond.error(30000,"添加或修改失败");
+        return CommonRespond.error(30000, "添加或修改失败");
     }
 
 
@@ -58,9 +55,16 @@ public class JobLevelController {
     @LogAnnotation
     @DeleteMapping("/delete/{id}")
     public CommonRespond<Boolean> delete(@PathVariable Long id) {
-        if (jobLevelService.deleteById(id)){
-            return CommonRespond.succeed("删除成功",true);
+        if (jobLevelService.deleteById(id)) {
+            return CommonRespond.succeed("删除成功", true);
         }
-        return CommonRespond.error(30000,"删除失败");
+        return CommonRespond.error(30000, "删除失败");
+    }
+
+    @LogAnnotation
+    @GetMapping("/query_all")
+    public CommonRespond<List<JobLevelQueryResp>> queryAll() {
+        List<JobLevelQueryResp> jobLevelList = jobLevelService.queryAll();
+        return CommonRespond.succeed(jobLevelList);
     }
 }

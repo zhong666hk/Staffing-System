@@ -8,7 +8,6 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.nation.domain.Nation;
 import com.wbu.staff.nation.mapper.NationMapper;
 import com.wbu.staff.nation.req.NationQueryReq;
@@ -17,7 +16,7 @@ import com.wbu.staff.nation.resp.NationQueryResp;
 import com.wbu.staff.nation.service.NationService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * @author 钟正保
@@ -64,6 +63,13 @@ public class NationServiceImpl extends ServiceImpl<NationMapper, Nation>
             return false;
         }
         return this.removeById(id);
+    }
+    @Override
+    public List<NationQueryResp> queryAll() {
+        QueryWrapper<Nation> nationQueryWrapper = new QueryWrapper<>();
+        nationQueryWrapper.orderByAsc("name");
+        List<Nation> list = this.list(nationQueryWrapper);
+        return BeanUtil.copyToList(list, NationQueryResp.class);
     }
 }
 

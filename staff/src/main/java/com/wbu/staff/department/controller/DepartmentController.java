@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/department")
 public class DepartmentController {
@@ -57,5 +59,12 @@ public class DepartmentController {
             return CommonRespond.succeed("删除成功", true);
         }
         return CommonRespond.error(30000, "删除失败");
+    }
+
+    @LogAnnotation
+    @GetMapping("/query_all")
+    public CommonRespond<List<DepartmentQueryResp>> queryAll() {
+        List<DepartmentQueryResp> departmentList = departmentService.queryAll();
+        return CommonRespond.succeed(departmentList);
     }
 }

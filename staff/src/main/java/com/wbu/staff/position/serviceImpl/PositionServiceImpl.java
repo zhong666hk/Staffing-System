@@ -17,6 +17,7 @@ import com.wbu.staff.position.service.PositionService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 钟正保
@@ -66,6 +67,14 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position>
             return false;
         }
         return this.removeById(id);
+    }
+
+    @Override
+    public List<PositionQueryResp> queryAll() {
+        QueryWrapper<Position> positionQueryWrapper = new QueryWrapper<>();
+        positionQueryWrapper.orderByAsc("name");
+        List<Position> list = this.list(positionQueryWrapper);
+        return BeanUtil.copyToList(list, PositionQueryResp.class);
     }
 }
 

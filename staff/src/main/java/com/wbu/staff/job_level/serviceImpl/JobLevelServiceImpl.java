@@ -16,7 +16,7 @@ import com.wbu.staff.job_level.resp.JobLevelQueryResp;
 import com.wbu.staff.job_level.service.JobLevelService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * @author 钟正保
@@ -36,7 +36,7 @@ public class JobLevelServiceImpl extends ServiceImpl<JobLevelMapper, JobLevel>
         // 拷贝类
         JobLevel jobLevel = BeanUtil.copyProperties(req, JobLevel.class);
         // 如果是id为空--->说明是添加的操作
-        if (ObjectUtil.isNull(jobLevel.getId())){
+        if (ObjectUtil.isNull(jobLevel.getId())) {
             jobLevel.setId(SnowUtil.getSnowflakeNextId());
             jobLevel.setCreateTime(date);
             return this.save(jobLevel);
@@ -54,16 +54,24 @@ public class JobLevelServiceImpl extends ServiceImpl<JobLevelMapper, JobLevel>
 //        PageHelper.startPage( req.getPage(),req.getSize());
         Page<JobLevel> page = this.page(new Page<>(req.getPage(), req.getSize()), jobLevelQueryWrapper);
         Page<JobLevelQueryResp> jobLevelQueryRespPage = new Page<>();
-        BeanUtil.copyProperties(page,jobLevelQueryRespPage);
+        BeanUtil.copyProperties(page, jobLevelQueryRespPage);
         return jobLevelQueryRespPage;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        if (ObjectUtil.isNull(id)){
+        if (ObjectUtil.isNull(id)) {
             return false;
         }
         return this.removeById(id);
+    }
+
+    @Override
+    public List<JobLevelQueryResp> queryAll() {
+        QueryWrapper<JobLevel> jobLevelQueryWrapper = new QueryWrapper<>();
+        jobLevelQueryWrapper.orderByAsc("name");
+        List<JobLevel> list = this.list(jobLevelQueryWrapper);
+        return BeanUtil.copyToList(list, JobLevelQueryResp.class);
     }
 }
 

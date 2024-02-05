@@ -22,7 +22,6 @@ public class PositionQueryResp {
      * 
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    @NotNull(message = "【】不能为空")
     private Date createTime;
 
     /**

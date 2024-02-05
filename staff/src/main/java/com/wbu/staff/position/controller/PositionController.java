@@ -63,4 +63,11 @@ public class PositionController {
         }
         return CommonRespond.error(30000,"删除失败");
     }
+
+    @LogAnnotation
+    @GetMapping("/query_all")
+    public CommonRespond<List<PositionQueryResp>> queryAll() {
+        List<PositionQueryResp> positionList = positionService.queryAll();
+        return CommonRespond.succeed(positionList);
+    }
 }
