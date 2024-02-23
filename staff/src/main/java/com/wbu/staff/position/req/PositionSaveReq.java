@@ -17,6 +17,8 @@ public class PositionSaveReq {
      */
     private String name;
 
+    private String departmentName;
+
     /**
      * 
      */

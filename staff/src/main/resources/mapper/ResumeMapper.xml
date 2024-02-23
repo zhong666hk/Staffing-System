@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wbu.staff.resume.mapper.ResumeMapper">
+
+    <resultMap id="BaseResultMap" type="com.wbu.staff.resume.domain.Resume">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="CHAR"/>
+            <result property="birthday" column="birthday" jdbcType="DATE"/>
+            <result property="idCard" column="id_card" jdbcType="CHAR"/>
+            <result property="nationId" column="nation_id" jdbcType="INTEGER"/>
+            <result property="nativePlace" column="native_place" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="departmentId" column="department_id" jdbcType="BIGINT"/>
+            <result property="jobLevelId" column="job_level_id" jdbcType="BIGINT"/>
+            <result property="posId" column="pos_id" jdbcType="BIGINT"/>
+            <result property="tiptopDegree" column="tiptop_degree" jdbcType="OTHER"/>
+            <result property="specialty" column="specialty" jdbcType="VARCHAR"/>
+            <result property="school" column="school" jdbcType="VARCHAR"/>
+            <result property="vocationalSkills" column="vocational_skills" jdbcType="VARCHAR"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,gender,
+        birthday,id_card,nation_id,
+        native_place,email,phone,
+        address,department_id,job_level_id,
+        pos_id,tiptop_degree,specialty,
+        school,vocational_skills,introduction,
+        create_time,update_time
+    </sql>
+</mapper>

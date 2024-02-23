@@ -33,6 +33,7 @@ public class EmployeeInformation implements Serializable {
     /**
      * 出生日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
     /**
      * 身份证号
@@ -61,15 +62,15 @@ public class EmployeeInformation implements Serializable {
     /**
      * 所属部门
      */
-    private Integer departmentId;
+    private Long departmentId;
     /**
      * 职称ID
      */
-    private Integer jobLevelId;
+    private Long jobLevelId;
     /**
      * 职位ID
      */
-    private Integer posId;
+    private Long posId;
     /**
      * 最高学历
      */
@@ -85,6 +86,7 @@ public class EmployeeInformation implements Serializable {
     /**
      * 入职日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
     /**
      * 在职状态
@@ -101,18 +103,22 @@ public class EmployeeInformation implements Serializable {
     /**
      * 转正日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date conversionTime;
     /**
      * 离职日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date notWorkDate;
     /**
      * 合同起始日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date beginContract;
     /**
      * 合同终止日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endContract;
     /**
      * 工龄
@@ -125,12 +131,12 @@ public class EmployeeInformation implements Serializable {
     /**
      *
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     /**
      *
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     @Override

@@ -32,4 +32,6 @@ public interface DepartmentService extends IService<Department> {
     public boolean  deleteById(Long id);
 
     List<DepartmentQueryResp> queryAll();
+
+    Department queryDepartmentByName(String name);
 }

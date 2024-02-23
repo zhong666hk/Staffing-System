@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wbu.staff.common.exception.MyException;
 import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.department.domain.Department;
 import com.wbu.staff.department.mapper.DepartmentMapper;
@@ -16,7 +17,6 @@ import com.wbu.staff.department.resp.DepartmentQueryResp;
 import com.wbu.staff.department.service.DepartmentService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,20 +36,20 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         }
         // 拷贝类
         Department department = BeanUtil.copyProperties(req, Department.class);
-        if(!ObjectUtil.isNull(req.getName())){
+        if (!ObjectUtil.isNull(req.getName())) {
             //获取父id
             QueryWrapper<Department> departmentQueryWrapper = new QueryWrapper<>();
-            departmentQueryWrapper.eq("name",req.getName());
+            departmentQueryWrapper.eq("name", req.getName());
             Department parentDepartment = this.getOne(departmentQueryWrapper);
             //设置department的父id
-            if (ObjectUtil.isNull(parentDepartment)){
+            if (ObjectUtil.isNull(parentDepartment)) {
                 department.setParentid(null);
-            }else {
+            } else {
                 department.setParentid(parentDepartment.getId());
             }
         }
         // 如果是id为空--->说明是添加的操作
-        if (ObjectUtil.isNull(department.getId())){
+        if (ObjectUtil.isNull(department.getId())) {
             department.setId(SnowUtil.getSnowflakeNextId());
             department.setCreateTime(date);
             department.setUpdateTime(date);
@@ -69,13 +69,13 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 //        PageHelper.startPage( req.getPage(),req.getSize());
         Page<Department> page = this.page(new Page<>(req.getPage(), req.getSize()), departmentQueryWrapper);
         Page<DepartmentQueryResp> departmentQueryRespPage = new Page<>();
-        BeanUtil.copyProperties(page,departmentQueryRespPage);
+        BeanUtil.copyProperties(page, departmentQueryRespPage);
         return departmentQueryRespPage;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        if (ObjectUtil.isNull(id)){
+        if (ObjectUtil.isNull(id)) {
             return false;
         }
         return this.removeById(id);
@@ -87,6 +87,22 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         departmentQueryWrapper.orderByAsc("name");
         List<Department> list = this.list(departmentQueryWrapper);
         return BeanUtil.copyToList(list, DepartmentQueryResp.class);
+    }
+
+    @Override
+    public Department queryDepartmentByName(String name) {
+        if (ObjectUtil.isNotNull(name)) {
+            QueryWrapper<Department> departmentQueryWrapper = new QueryWrapper<>();
+            departmentQueryWrapper.eq("name",name);
+            Department department = this.getOne(departmentQueryWrapper);
+            if (ObjectUtil.isNotNull(department)) {
+                return department;
+            } else {
+                throw new MyException(30000, "该职位不存在");
+            }
+        } else {
+            throw new MyException(30000, "name不能为空");
+        }
     }
 }
 

@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wbu.staff.common.exception.MyException;
 import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.position.domain.Position;
 import com.wbu.staff.position.mapper.PositionMapper;
@@ -75,6 +76,22 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position>
         positionQueryWrapper.orderByAsc("name");
         List<Position> list = this.list(positionQueryWrapper);
         return BeanUtil.copyToList(list, PositionQueryResp.class);
+    }
+
+    @Override
+    public Position queryPositionByName(String name) {
+        if (ObjectUtil.isNotNull(name)){
+            QueryWrapper<Position> positionQueryWrapper = new QueryWrapper<>();
+            positionQueryWrapper.eq("name",name);
+            Position position = this.getOne(positionQueryWrapper);
+            if (ObjectUtil.isNotNull(position)){
+                return position;
+            }else {
+                throw new MyException(30000,"该职位不存在");
+            }
+        }else {
+            throw new  MyException(30000,"name不能为空");
+        }
     }
 }
 

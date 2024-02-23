@@ -8,6 +8,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wbu.staff.common.exception.MyException;
 import com.wbu.staff.nation.domain.Nation;
 import com.wbu.staff.nation.mapper.NationMapper;
 import com.wbu.staff.nation.req.NationQueryReq;
@@ -36,8 +37,8 @@ public class NationServiceImpl extends ServiceImpl<NationMapper, Nation>
         // 拷贝类
         Nation nation = BeanUtil.copyProperties(req, Nation.class);
         // 如果是id为空--->说明是添加的操作
-        if (ObjectUtil.isNull(nation.getId())){
-            nation.setId(RandomUtil.randomInt(1,56));
+        if (ObjectUtil.isNull(nation.getId())) {
+            nation.setId(RandomUtil.randomInt(1, 56));
             return this.save(nation);
         }// id不为空说明是修改的操作
         else {
@@ -53,23 +54,40 @@ public class NationServiceImpl extends ServiceImpl<NationMapper, Nation>
 //        PageHelper.startPage( req.getPage(),req.getSize());
         Page<Nation> page = this.page(new Page<>(req.getPage(), req.getSize()), nationQueryWrapper);
         Page<NationQueryResp> nationQueryRespPage = new Page<>();
-        BeanUtil.copyProperties(page,nationQueryRespPage);
+        BeanUtil.copyProperties(page, nationQueryRespPage);
         return nationQueryRespPage;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        if (ObjectUtil.isNull(id)){
+        if (ObjectUtil.isNull(id)) {
             return false;
         }
         return this.removeById(id);
     }
+
     @Override
     public List<NationQueryResp> queryAll() {
         QueryWrapper<Nation> nationQueryWrapper = new QueryWrapper<>();
         nationQueryWrapper.orderByAsc("name");
         List<Nation> list = this.list(nationQueryWrapper);
         return BeanUtil.copyToList(list, NationQueryResp.class);
+    }
+
+    @Override
+    public Nation queryNationByName(String name) {
+        if (ObjectUtil.isNotNull(name)) {
+            QueryWrapper<Nation> nationQueryWrapper = new QueryWrapper<>();
+            nationQueryWrapper.eq("name",name);
+            Nation nation = this.getOne(nationQueryWrapper);
+            if (ObjectUtil.isNotNull(nation)) {
+                return nation;
+            } else {
+                throw new MyException(30000, "该名族不存在");
+            }
+        } else {
+            throw new MyException(30000, "name不能为空");
+        }
     }
 }
 

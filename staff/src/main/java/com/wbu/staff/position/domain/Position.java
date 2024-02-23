@@ -28,6 +28,8 @@ public class Position implements Serializable {
      */
     private String name;
 
+    private String departmentName;
+
     /**
      * 
      */

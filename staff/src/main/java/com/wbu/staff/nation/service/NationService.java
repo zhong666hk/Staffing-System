@@ -32,4 +32,6 @@ public interface NationService extends IService<Nation> {
     public boolean  deleteById(Long id);
 
     List<NationQueryResp> queryAll();
+
+    Nation queryNationByName(String name);
 }

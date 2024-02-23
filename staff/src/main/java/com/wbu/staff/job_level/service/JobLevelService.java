@@ -32,4 +32,6 @@ public interface JobLevelService extends IService<JobLevel> {
     public boolean  deleteById(Long id);
 
     List<JobLevelQueryResp> queryAll();
+
+    JobLevel queryJobLevelByName(String name);
 }

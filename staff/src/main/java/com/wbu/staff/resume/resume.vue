@@ -5,7 +5,7 @@
       <a-button type="primary" @click="onAdd">新增</a-button>
     </a-space>
   </p>
-  <a-table :dataSource="employeeInformations"
+  <a-table :dataSource="resumes"
            :columns="columns"
            :pagination="pagination"
            @change="handleTableChange"
@@ -24,83 +24,59 @@
       </template>
     </template>
   </a-table>
-  <a-modal v-model:visible="visible" title="" @ok="handleOk"
+  <a-modal v-model:visible="visible" title="简历" @ok="handleOk"
            ok-text="确认" cancel-text="取消">
-    <a-form :model="employeeInformation" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
+    <a-form :model="resume" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
       <a-form-item label="员工姓名">
-        <a-input v-model:value="employeeInformation.name" />
+        <a-input v-model:value="resume.name" />
       </a-form-item>
-      <a-form-item label="性别">
-        <a-input v-model:value="employeeInformation.gender" />
+      <a-form-item label="性别 1为男 2为女">
+        <a-input v-model:value="resume.gender" />
       </a-form-item>
       <a-form-item label="出生日期">
-        <a-date-picker v-model:value="employeeInformation.birthday" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
+        <a-date-picker v-model:value="resume.birthday" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
       </a-form-item>
       <a-form-item label="身份证号">
-        <a-input v-model:value="employeeInformation.idCard" />
+        <a-input v-model:value="resume.idCard" />
       </a-form-item>
       <a-form-item label="民族">
-        <a-input v-model:value="employeeInformation.nationId" />
+        <a-input v-model:value="resume.nationId" />
       </a-form-item>
       <a-form-item label="籍贯">
-        <a-input v-model:value="employeeInformation.nativePlace" />
+        <a-input v-model:value="resume.nativePlace" />
       </a-form-item>
       <a-form-item label="邮箱">
-        <a-input v-model:value="employeeInformation.email" />
+        <a-input v-model:value="resume.email" />
       </a-form-item>
       <a-form-item label="电话号码">
-        <a-input v-model:value="employeeInformation.phone" />
+        <a-input v-model:value="resume.phone" />
       </a-form-item>
       <a-form-item label="联系地址">
-        <a-input v-model:value="employeeInformation.address" />
+        <a-input v-model:value="resume.address" />
       </a-form-item>
       <a-form-item label="所属部门">
-        <a-input v-model:value="employeeInformation.departmentId" />
+        <a-input v-model:value="resume.departmentId" />
       </a-form-item>
       <a-form-item label="职称ID">
-        <a-input v-model:value="employeeInformation.jobLevelId" />
+        <a-input v-model:value="resume.jobLevelId" />
       </a-form-item>
       <a-form-item label="职位ID">
-        <a-input v-model:value="employeeInformation.posId" />
+        <a-input v-model:value="resume.posId" />
       </a-form-item>
       <a-form-item label="最高学历">
-        <a-input v-model:value="employeeInformation.tiptopDegree" />
+        <a-input v-model:value="resume.tiptopDegree" />
       </a-form-item>
       <a-form-item label="所属专业">
-        <a-input v-model:value="employeeInformation.specialty" />
+        <a-input v-model:value="resume.specialty" />
       </a-form-item>
       <a-form-item label="毕业院校">
-        <a-input v-model:value="employeeInformation.school" />
+        <a-input v-model:value="resume.school" />
       </a-form-item>
-      <a-form-item label="入职日期">
-        <a-date-picker v-model:value="employeeInformation.beginDate" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
+      <a-form-item label="职业技能描述">
+        <a-input v-model:value="resume.vocationalSkills" />
       </a-form-item>
-      <a-form-item label="在职状态">
-        <a-input v-model:value="employeeInformation.workState" />
-      </a-form-item>
-      <a-form-item label="工号">
-        <a-input v-model:value="employeeInformation.workId" />
-      </a-form-item>
-      <a-form-item label="合同期限">
-        <a-input v-model:value="employeeInformation.contractTerm" />
-      </a-form-item>
-      <a-form-item label="转正日期">
-        <a-date-picker v-model:value="employeeInformation.conversionTime" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
-      </a-form-item>
-      <a-form-item label="离职日期">
-        <a-date-picker v-model:value="employeeInformation.notWorkDate" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
-      </a-form-item>
-      <a-form-item label="合同起始日期">
-        <a-date-picker v-model:value="employeeInformation.beginContract" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
-      </a-form-item>
-      <a-form-item label="合同终止日期">
-        <a-date-picker v-model:value="employeeInformation.endContract" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
-      </a-form-item>
-      <a-form-item label="工龄">
-        <a-input v-model:value="employeeInformation.workAge" />
-      </a-form-item>
-      <a-form-item label="员工id">
-        <a-input v-model:value="employeeInformation.employeeId" />
+      <a-form-item label="自我描述">
+        <a-input v-model:value="resume.introduction" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -112,10 +88,10 @@ import {notification} from "ant-design-vue";
 import axios from "axios";
 
 export default defineComponent({
-  name: "employeeInformation-view",
+  name: "resume-view",
   setup() {
     const visible = ref(false);
-    let employeeInformation = ref({
+    let resume = ref({
       id: undefined,
       name: undefined,
       gender: undefined,
@@ -132,20 +108,12 @@ export default defineComponent({
       tiptopDegree: undefined,
       specialty: undefined,
       school: undefined,
-      beginDate: undefined,
-      workState: undefined,
-      workId: undefined,
-      contractTerm: undefined,
-      conversionTime: undefined,
-      notWorkDate: undefined,
-      beginContract: undefined,
-      endContract: undefined,
-      workAge: undefined,
-      employeeId: undefined,
+      vocationalSkills: undefined,
+      introduction: undefined,
       createTime: undefined,
       updateTime: undefined,
     });
-    const employeeInformations = ref([]);
+    const resumes = ref([]);
     // 分页的三个属性名是固定的
     const pagination = ref({
       total: 0,
@@ -160,7 +128,7 @@ export default defineComponent({
       key: 'name',
     },
     {
-      title: '性别',
+      title: '性别 1为男 2为女',
       dataIndex: 'gender',
       key: 'gender',
     },
@@ -230,54 +198,14 @@ export default defineComponent({
       key: 'school',
     },
     {
-      title: '入职日期',
-      dataIndex: 'beginDate',
-      key: 'beginDate',
+      title: '职业技能描述',
+      dataIndex: 'vocationalSkills',
+      key: 'vocationalSkills',
     },
     {
-      title: '在职状态',
-      dataIndex: 'workState',
-      key: 'workState',
-    },
-    {
-      title: '工号',
-      dataIndex: 'workId',
-      key: 'workId',
-    },
-    {
-      title: '合同期限',
-      dataIndex: 'contractTerm',
-      key: 'contractTerm',
-    },
-    {
-      title: '转正日期',
-      dataIndex: 'conversionTime',
-      key: 'conversionTime',
-    },
-    {
-      title: '离职日期',
-      dataIndex: 'notWorkDate',
-      key: 'notWorkDate',
-    },
-    {
-      title: '合同起始日期',
-      dataIndex: 'beginContract',
-      key: 'beginContract',
-    },
-    {
-      title: '合同终止日期',
-      dataIndex: 'endContract',
-      key: 'endContract',
-    },
-    {
-      title: '工龄',
-      dataIndex: 'workAge',
-      key: 'workAge',
-    },
-    {
-      title: '员工id',
-      dataIndex: 'employeeId',
-      key: 'employeeId',
+      title: '自我描述',
+      dataIndex: 'introduction',
+      key: 'introduction',
     },
     {
       title: '操作',
@@ -286,17 +214,17 @@ export default defineComponent({
     ];
 
     const onAdd = () => {
-      employeeInformation.value = {};
+      resume.value = {};
       visible.value = true;
     };
 
     const onEdit = (record) => {
-      employeeInformation.value = window.Tool.copy(record);
+      resume.value = window.Tool.copy(record);
       visible.value = true;
     };
 
     const onDelete = (record) => {
-      axios.delete("/employeeInformation/admin/employeeInformation/delete/" + record.id).then((response) => {
+      axios.delete("/resume/admin/resume/delete/" + record.id).then((response) => {
         if (response.code===200) {
           notification.success({description: response.message});
           handleQuery({
@@ -310,7 +238,7 @@ export default defineComponent({
     };
 
     const handleOk = () => {
-      axios.post("/employeeInformation/admin/employeeInformation/save", employeeInformation.value).then((response) => {
+      axios.post("/resume/admin/resume/save", resume.value).then((response) => {
         if (response.code===200) {
           notification.success({description: response.message});
           visible.value = false;
@@ -332,7 +260,7 @@ export default defineComponent({
         };
       }
       loading.value = true;
-      axios.get("/employeeInformation/admin/employeeInformation/query-list", {
+      axios.get("/resume/admin/resume/query-list", {
         params: {
           page: param.page,
           size: param.size
@@ -340,7 +268,7 @@ export default defineComponent({
       }).then((response) => {
         loading.value = false;
         if (response.code===200) {
-          employeeInformations.value = response.data.records;
+          resumes.value = response.data.records;
           // 设置分页控件的值
           pagination.value.current = param.page;
           pagination.value.total = response.data.total;
@@ -367,9 +295,9 @@ export default defineComponent({
     });
 
     return {
-      employeeInformation,
+      resume,
       visible,
-      employeeInformations,
+      resumes,
       pagination,
       columns,
       handleTableChange,

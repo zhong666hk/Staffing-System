@@ -39,4 +39,8 @@ public interface EmployeeService extends IService<Employee> {
     CommonRespond<LoginResp> login(EmployeeLoginReq employeeLoginReq) throws Exception;
 
     CommonRespond<Object> resetPassword(ResetEmployeePassword resetEmployeePassword) throws Exception;
+
+    Employee queryEmployeeByName(String name);
+
+    Employee registerEmployee(EmployeeResumeReq employeeResumeReq) throws Exception;
 }

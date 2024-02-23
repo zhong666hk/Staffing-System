@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wbu.staff.common.exception.MyException;
 import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.job_level.domain.JobLevel;
 import com.wbu.staff.job_level.mapper.JobLevelMapper;
@@ -73,6 +74,23 @@ public class JobLevelServiceImpl extends ServiceImpl<JobLevelMapper, JobLevel>
         List<JobLevel> list = this.list(jobLevelQueryWrapper);
         return BeanUtil.copyToList(list, JobLevelQueryResp.class);
     }
+
+    @Override
+    public JobLevel queryJobLevelByName(String name) {
+        if (ObjectUtil.isNotNull(name)) {
+            QueryWrapper<JobLevel> jobLevelQueryWrapper = new QueryWrapper<>();
+            jobLevelQueryWrapper.eq("name",name);
+            JobLevel jobLevel = this.getOne(jobLevelQueryWrapper);
+            if (ObjectUtil.isNotNull(jobLevel)) {
+                return jobLevel;
+            } else {
+                throw new MyException(30000, "该职位级别不存在");
+            }
+        } else {
+            throw new MyException(30000, "name不能为空");
+        }
+    }
+
 }
 
 

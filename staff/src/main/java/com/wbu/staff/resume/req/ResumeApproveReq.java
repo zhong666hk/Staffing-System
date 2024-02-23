@@ -1,13 +1,13 @@
-package com.wbu.staff.employee_information.req;
+package com.wbu.staff.resume.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class EmployeeInformationSaveReq {
+public class ResumeApproveReq {
 
     /**
      * id编号
@@ -20,8 +20,9 @@ public class EmployeeInformationSaveReq {
     private String name;
 
     /**
-     * 性别
+     * 性别 1为男 2为女
      */
+    @NotBlank(message = "【性别 1为男 2为女】不能为空")
     private String gender;
 
     /**
@@ -91,59 +92,14 @@ public class EmployeeInformationSaveReq {
     private String school;
 
     /**
-     * 入职日期
+     * 职业技能描述
      */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date beginDate;
+    private String vocationalSkills;
 
     /**
-     * 在职状态
+     * 自我描述
      */
-    private String workState;
-
-    /**
-     * 工号
-     */
-    private String workId;
-
-    /**
-     * 合同期限
-     */
-    private String contractTerm;
-
-    /**
-     * 转正日期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date conversionTime;
-
-    /**
-     * 离职日期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date notWorkDate;
-
-    /**
-     * 合同起始日期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date beginContract;
-
-    /**
-     * 合同终止日期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date endContract;
-
-    /**
-     * 工龄
-     */
-    private Integer workAge;
-
-    /**
-     * 员工id
-     */
-    private Long employeeId;
+    private String introduction;
 
     /**
      *
