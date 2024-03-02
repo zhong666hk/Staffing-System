@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -86,5 +88,12 @@ public class EmployeeController {
             return CommonRespond.error(RespondExample.REQUEST_PARAMETER_IS_ILLEGAL);
         }
         return employeeService.resetPassword(resetEmployeePassword);
+    }
+
+    @LogAnnotation
+    @GetMapping("/query_all")
+    public CommonRespond<List<EmployeeQueryResp>> queryAll() {
+        List<EmployeeQueryResp> employeeInformationList = employeeService.queryAll();
+        return CommonRespond.succeed(employeeInformationList);
     }
 }

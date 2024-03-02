@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wbu.staff.employee_train.mapper.EmployeeTrainMapper">
+
+    <resultMap id="BaseResultMap" type="com.wbu.staff.employee_train.domain.EmployeeTrain">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="eid" column="eid" jdbcType="BIGINT"/>
+            <result property="trainStartDate" column="train_start_date" jdbcType="TIMESTAMP"/>
+            <result property="trainFinishDate" column="train_finish_date" jdbcType="TIMESTAMP"/>
+            <result property="trainContent" column="train_content" jdbcType="VARCHAR"/>
+            <result property="trainStatus" column="train_status" jdbcType="INTEGER"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,eid,train_start_date,
+        train_finish_date,train_content,train_status,
+        remark
+    </sql>
+</mapper>

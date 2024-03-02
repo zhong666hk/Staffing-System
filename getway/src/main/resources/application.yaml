@@ -48,3 +48,15 @@ spring:
           uri: http://127.0.0.1:8080
           predicates:
             - Path=/api/resume/**
+        - id: salary
+          uri: http://127.0.0.1:8080
+          predicates:
+            - Path=/api/salary/**
+        - id: employeeTrain
+          uri: http://127.0.0.1:8080
+          predicates:
+            - Path=/api/employeeTrain/**
+        - id: messageNotification
+          uri: http://127.0.0.1:8080
+          predicates:
+            - Path=/api/messageNotification/**

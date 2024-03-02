@@ -101,6 +101,8 @@ public class ResumeApproveReq {
      */
     private String introduction;
 
+    private int salary;
+
     /**
      *
      */

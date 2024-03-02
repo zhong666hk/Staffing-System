@@ -14,7 +14,6 @@ import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.department.domain.Department;
 import com.wbu.staff.department.service.DepartmentService;
 import com.wbu.staff.employee.domain.Employee;
-import com.wbu.staff.employee.req.EmployeeRegisterReq;
 import com.wbu.staff.employee.req.EmployeeResumeReq;
 import com.wbu.staff.employee.service.EmployeeService;
 import com.wbu.staff.employee_information.domain.EmployeeInformation;
@@ -32,6 +31,9 @@ import com.wbu.staff.resume.req.ResumeQueryReq;
 import com.wbu.staff.resume.req.ResumeSaveReq;
 import com.wbu.staff.resume.resp.ResumeQueryResp;
 import com.wbu.staff.resume.service.ResumeService;
+import com.wbu.staff.salary.domain.Salary;
+import com.wbu.staff.salary.req.SalarySaveReq;
+import com.wbu.staff.salary.service.SalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +59,8 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume>
     private EmployeeService employeeService;
     @Autowired
     private EmployeeInformationService employeeInformationService;
+    @Autowired
+    private SalaryService salaryService;
 
     @Override
     public boolean saveResume(ResumeSaveReq req) {
@@ -174,12 +178,19 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume>
 
         DateTime endDate = DateUtil.offset(date, DateField.YEAR, 3);
         employeeInformation.setEndContract(endDate);
-
-        if (employeeInformationService.save(employeeInformation)) {
-            return CommonRespond.error(200,"入职办理成功");
-        }else {
-            throw new MyException(50000, "添加失败");
+        if (!employeeInformationService.save(employeeInformation)) {
+            throw new MyException(50000, "员工信息添加失败");
         }
+
+        //3.工资信息录入
+        SalarySaveReq salarySaveReq = new SalarySaveReq();
+        salarySaveReq.setBasicSalary(req.getSalary());
+        salarySaveReq.setAllSalary(req.getSalary());
+        salarySaveReq.setEmployeeId(employee.getId());
+        if (!salaryService.saveSalary(salarySaveReq)) {
+            throw new MyException(50000, "工资添加失败");
+        }
+        return CommonRespond.succeed("信息录入成功",null);
     }
 }
 

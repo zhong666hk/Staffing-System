@@ -1,13 +1,13 @@
 package com.wbu.staff.employee_information.serviceImpl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wbu.staff.common.exception.MyException;
 import com.wbu.staff.common.util.SnowUtil;
 import com.wbu.staff.department.domain.Department;
 import com.wbu.staff.department.service.DepartmentService;
@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,9 +76,9 @@ public class EmployeeInformationServiceImpl extends ServiceImpl<EmployeeInformat
         Department department = departmentService.queryDepartmentByName(req.getDepartmentName());
         employeeInformation.setDepartmentId(department.getId());
         String workState = req.getWorkState();
-        if (workState.equals("0")){
+        if (workState.equals("0")) {
             employeeInformation.setWorkState("在职");
-        }else {
+        } else {
             employeeInformation.setWorkState("离职");
         }
 
@@ -128,7 +127,7 @@ public class EmployeeInformationServiceImpl extends ServiceImpl<EmployeeInformat
 
             if (employeeInformationQueryResp.getWorkState().equals("在职")) {
                 employeeInformationQueryResp.setWorkState("0");
-            }else {
+            } else {
                 employeeInformationQueryResp.setWorkState("1");
             }
         }
@@ -143,6 +142,32 @@ public class EmployeeInformationServiceImpl extends ServiceImpl<EmployeeInformat
         }
         return this.removeById(id);
     }
+
+    @Override
+    public EmployeeInformation queryEmployeeInformationByName(String name) {
+        if (ObjectUtil.isNotNull(name)) {
+            QueryWrapper<EmployeeInformation> employeeInformationQueryWrapper = new QueryWrapper<>();
+            employeeInformationQueryWrapper.eq("name", name);
+            EmployeeInformation employeeInformation = this.getOne(employeeInformationQueryWrapper);
+            if (ObjectUtil.isNotNull(employeeInformation)) {
+                return employeeInformation;
+            } else {
+                throw new MyException(30000, "该员工不存在");
+            }
+        } else {
+            throw new MyException(30000, "name不能为空");
+        }
+    }
+
+    @Override
+    public List<EmployeeInformationQueryResp> queryAll() {
+        QueryWrapper<EmployeeInformation> informationQueryWrapper = new QueryWrapper<>();
+        informationQueryWrapper.orderByAsc("name");
+        List<EmployeeInformation> list = this.list(informationQueryWrapper);
+        return BeanUtil.copyToList(list, EmployeeInformationQueryResp.class);
+    }
+
+
 }
 
 

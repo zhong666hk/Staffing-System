@@ -20,6 +20,8 @@ import com.wbu.staff.employee.mapper.EmployeeMapper;
 import com.wbu.staff.employee.req.*;
 import com.wbu.staff.employee.resp.EmployeeQueryResp;
 import com.wbu.staff.employee.service.EmployeeService;
+import com.wbu.staff.employee_information.domain.EmployeeInformation;
+import com.wbu.staff.employee_information.resp.EmployeeInformationQueryResp;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -194,6 +196,14 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
             return newEmployee;
         }
         throw new MyException(50000,"员工账号注册失败");
+    }
+
+    @Override
+    public List<EmployeeQueryResp> queryAll() {
+        QueryWrapper<Employee> employeeQueryWrapper = new QueryWrapper<>();
+        employeeQueryWrapper.orderByAsc("name");
+        List<Employee> list = this.list(employeeQueryWrapper);
+        return BeanUtil.copyToList(list, EmployeeQueryResp.class);
     }
 }
 

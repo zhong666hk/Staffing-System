@@ -9,11 +9,14 @@ import com.wbu.staff.employee_information.req.EmployeeInformationQueryReq;
 import com.wbu.staff.employee_information.req.EmployeeInformationSaveReq;
 import com.wbu.staff.employee_information.resp.EmployeeInformationQueryResp;
 import com.wbu.staff.employee_information.service.EmployeeInformationService;
+import com.wbu.staff.job_level.resp.JobLevelQueryResp;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employeeInformation")
@@ -57,5 +60,12 @@ public class EmployeeInformationController {
             return CommonRespond.succeed("删除成功", true);
         }
         return CommonRespond.error(30000, "员工信息删除失败");
+    }
+
+    @LogAnnotation
+    @GetMapping("/query_all")
+    public CommonRespond<List<EmployeeInformationQueryResp>> queryAll() {
+        List<EmployeeInformationQueryResp> employeeInformationList = employeeInformationService.queryAll();
+        return CommonRespond.succeed(employeeInformationList);
     }
 }

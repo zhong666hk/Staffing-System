@@ -8,6 +8,8 @@ import com.wbu.staff.employee.req.*;
 import com.wbu.staff.employee.resp.EmployeeQueryResp;
 import com.wbu.staff.common.respon.LoginResp;
 
+import java.util.List;
+
 /**
 * @author 钟正保
 * @description 针对表【employee(乘车人)】的数据库操作Service
@@ -43,4 +45,6 @@ public interface EmployeeService extends IService<Employee> {
     Employee queryEmployeeByName(String name);
 
     Employee registerEmployee(EmployeeResumeReq employeeResumeReq) throws Exception;
+
+    List<EmployeeQueryResp> queryAll();
 }

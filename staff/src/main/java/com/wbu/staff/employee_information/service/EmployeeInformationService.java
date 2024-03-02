@@ -8,6 +8,8 @@ import com.wbu.staff.employee_information.req.EmployeeInformationQueryReq;
 import com.wbu.staff.employee_information.req.EmployeeInformationSaveReq;
 import com.wbu.staff.employee_information.resp.EmployeeInformationQueryResp;
 
+import java.util.List;
+
 /**
  * @author 钟正保
  * @description 针对表【employeeInformation(乘车人)】的数据库操作Service
@@ -30,4 +32,8 @@ public interface EmployeeInformationService extends IService<EmployeeInformation
      * @param id
      */
     public boolean deleteById(Long id);
+
+    EmployeeInformation queryEmployeeInformationByName(String name);
+
+    List<EmployeeInformationQueryResp> queryAll();
 }

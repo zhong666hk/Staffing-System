@@ -1,10 +1,12 @@
 package com.wbu.staff.employee.resp;
 
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
+import java.util.Date;
+
+@Data
 public class EmployeeQueryResp {
 
     /**
@@ -26,7 +28,7 @@ public class EmployeeQueryResp {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -34,58 +36,8 @@ public class EmployeeQueryResp {
      */
     private Integer isDelete;
 
-    public Long getId() {
-        return id;
-    }
+    private String name;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String workId;
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", mobile=").append(mobile);
-        sb.append(", password=").append(password);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", isDelete=").append(isDelete);
-        sb.append("]");
-        return sb.toString();
-    }
 }
